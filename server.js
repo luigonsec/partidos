@@ -41,7 +41,7 @@ app.get('/api/matches/:id', MatchController.get)
 
 // TODO:
 // DEVUELVE LOS EQUIPOS EN LOS QUE HA JUGADO UN USUARIO
-// app.get('/api/users/:username/team', UserController.teams)
+// app.get('/api/users/:username/teams', UserController.teams)
 
 // DEVUELVE TODOS LOS EQUIPOS
 // app.get('/api/teams/', TeamController.all)

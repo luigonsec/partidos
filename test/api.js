@@ -38,6 +38,19 @@ describe('TESTING USERS', () => {
       })
     })
   })
+
+  describe('/GET users/jug1/teams', () => {
+    it('DEBE DEVOLVER UN USUARIO', (done) => {
+      chai.request(server)
+      .get('/api/users/jug1/teams')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('array')
+        res.body.length.should.be.eql(2)
+        done()
+      })
+    })
+  })
 })
 
 
@@ -56,7 +69,7 @@ describe('TESTING MATCHES', () => {
     })
   })
 
-  describe('/GET matches/jug1', () => {
+  describe('/GET /users/jugj1/matches/', () => {
     it('DEBE DEVOLVER LOS PARTIDOS DE UN USUARIO', (done) => {
       chai.request(server)
       .get('/api/users/jug1/matches')
@@ -68,4 +81,18 @@ describe('TESTING MATCHES', () => {
       })
     })
   })
+
+  describe('/GET matches/1', () => {
+    it('DEVUELVE EL PARTIDO EN BASE A SU ID', (done) => {
+      chai.request(server)
+      .get('/api/matches/1')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('array')
+        res.body.length.should.be.eql(1)
+        done()
+      })
+    })
+  })
+
 })
