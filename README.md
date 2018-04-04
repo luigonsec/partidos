@@ -24,8 +24,8 @@ cd partidos
 ```
 ## Montar Base de Datos
 ```
-cd bd
-mysql -u root -p root < bd.sql
+cd db
+mysql -u root -p root < db.sql
 ```
 
 ## Instalar
