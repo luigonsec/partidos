@@ -31,6 +31,18 @@ UserController = {
     })
   },
 
+  teams (req, res) {
+    const connection = DatabaseService.getConnection()
+    const username = req.params['username']
+    UserController.idByUsername(username, function (err, id) {
+      if (err) return res.json({'error': true})
+      connection.query('SELECT * from users_teams where users_id = ?', [id], function (error, results, fields) {
+        if (error) return res.json({'error': true})
+        return res.json(results)
+      })
+    })
+  },
+
   idByUsername (username, cb) {
     const connection = DatabaseService.getConnection()
     connection.query('SELECT * from users where username = ?', [username], function (error, results, fields) {
