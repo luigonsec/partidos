@@ -8,4 +8,10 @@ module.exports = (app) => {
   // DEVUELVE EL PARTIDO EN BASE A SU ID
   app.get('/api/matches/:id', MatchController.get)
 
+  // TODO: DEVUELVE LOS EQUIPOS QUE JUEGAN UN PARTIDO
+  //app.get('/api/matches/:id/teams', MatchController.teams)
+
+  // TODO: DEVUELVE LOS JUGADORES QUE JUEGAN UN PARTIDO
+  //app.get('/api/matches/:id/users', MatchController.teams)
+
 }
