@@ -12,8 +12,8 @@ TeamController = {
 
   get (req, res) {
     const connection = DatabaseService.getConnection()
-    const teamname = req.params['teamname']
-    connection.query('SELECT * from teams where teamname = ?', [teamname], function (error, results, fields) {
+    const id = req.params['id']
+    connection.query('SELECT * from teams where id = ?', [id], function (error, results, fields) {
       if (error) return res.json({error: true})
       return res.json(results)
     })
@@ -21,42 +21,38 @@ TeamController = {
 
   matches (req, res) {
     const connection = DatabaseService.getConnection()
-    const teamname = req.params['teamname']
-    TeamController.idByTeamname(teamname, function (err, id) {
-      if (err) return res.json({'error': true})
-      const query =
+    const id = req.params['id']
 
-      'SELECT * from match_team_vs_anyone AS t1 '+
-      'INNER JOIN matches AS t2 ON t1.matches_id=t2.id '+
-      'WHERE t1.teams_id = ?'
+    const query =
+    'SELECT * from matches WHERE teams_id_1 = ? OR teams_id_2 = ?'
 
-      connection.query(query, [id], function (error, results, fields) {
-        if (error) return res.json({'error': true})
-        return res.json(results)
-      })
+    connection.query(query, [id, id], function (error, results, fields) {
+      if (error) return res.json({'error': true})
+      return res.json(results)
+    })
+  },
+
+  goals (req, res) {
+    const connection = DatabaseService.getConnection()
+    const id = req.params['id']
+    const query = 'SELECT g.* FROM ' +
+        'users_teams AS ut ' +
+        'INNER JOIN goals AS g ' +
+        'ON ut.teams_id=? AND g.users_teams_id = ut.id'
+
+    connection.query(query, [id], function (error, results, fields) {
+      if (error) return res.json({'error': true})
+      return res.json(results)
     })
   },
 
   players (req, res) {
     const connection = DatabaseService.getConnection()
-    const teamname = req.params['teamname']
-    TeamController.idByTeamname(teamname, function (err, id) {
-      if (err) return res.json({'error': true})
-      const query = 'SELECT * from users_teams WHERE teams_id = ?'
-
-      connection.query(query, [id], function (error, results, fields) {
-        if (error) return res.json({'error': true})
-        return res.json(results)
-      })
-    })
-  },
-
-  idByTeamname (teamname, cb) {
-    const connection = DatabaseService.getConnection()
-    connection.query('SELECT * from teams where teamname = ?', [teamname], function (error, results, fields) {
-      if (error) return cb(error)
-      if (results.length > 1) return cb(error)
-      return cb(null, results[0].id)
+    const id = req.params['id']
+    const query = 'SELECT * from users_teams WHERE teams_id = ?'
+    connection.query(query, [id], function (error, results, fields) {
+      if (error) return res.json({'error': true})
+      return res.json(results)
     })
   }
 }
